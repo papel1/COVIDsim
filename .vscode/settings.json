@@ -1,0 +1,19 @@
+{
+    "python.linting.enabled": true,
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "python.formatting.autopep8Args": [
+        "--max-line-length",
+        "128",
+        "--experimental",
+        "--indent-size=4"
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/desktop.ini": true,
+    }
+}
