@@ -15,8 +15,14 @@ class COVIDsim:
     Raises:
         ValueError: In case of wrong input we will return this error.
     """
-    @classmethod
-    def progress_bar(cls, count, total, bar_len=100):
+
+    def __init__(self) -> None:
+        """__init__
+        """
+        self.vaccinated_counter = 0
+        self.vaccination_progress = []
+
+    def progress_bar(self, count, total, bar_len=100):
         """Prints a progress bar to the console.
 
         Args:
@@ -29,8 +35,7 @@ class COVIDsim:
         sys.stdout.write(f'[{p_bar}] {count}/{total}\r')
         sys.stdout.flush()
 
-    @classmethod
-    def simulate(cls, _w: World, vaccine_approach, discouraged_doctore: bool = True, print_bar: bool = False):
+    def simulate(self, _w: World, vaccine_approach, discouraged_doctore: bool = True, print_bar: bool = False):
         """The main simulation algorithm
 
         Args:
@@ -52,8 +57,10 @@ class COVIDsim:
 
         for d in range(1, Constants.currentCfg.execution_time):
 
+            self.vaccination_progress.append(self.vaccinated_counter)
+
             if print_bar:
-                cls.progress_bar(d, Constants.currentCfg.execution_time)
+                self.progress_bar(d, Constants.currentCfg.execution_time)
 
             for district in _w.district_list:
                 selected_vaccine = None
@@ -90,6 +97,7 @@ class COVIDsim:
                                 district.capacity == 0:
                             break
 
+                            # TODO: disable and enable following if based on new flag: doctor_knows_preference
                         if dp_pref[0] == selected_vaccine.name:
                             # the selected vaccine is in the preference list.
 
@@ -109,9 +117,11 @@ class COVIDsim:
                                     district.people_list[dp_id].selected_vaccine = selected_vaccine.name
                                     selected_vaccine.vaccine_amount -= 1
                                     selected_vaccine.vaccine_prob -= 1
+                                    self.vaccinated_counter += 1
                                 else:
                                     district.people_list[dp_id].accepted = False
                                     district.people_list[dp_id].last_rejected = Constants.currentCfg.offer_frequency
+                                    selected_vaccine.refused_counter += 1
                                     if discouraged_doctore:
                                         selected_vaccine.vaccine_prob -= 1
                             break
@@ -140,9 +150,10 @@ if __name__ == "__main__":
     world = World(warehouse, population)
 
     # simulate based on random vaccine distribution
-    # COVIDsim.simulate(world, VaccineApproach.RANDOM_VACCINE, True, True)
+    covid = COVIDsim()
+    # covid.simulate(world, VaccineApproach.RANDOM_VACCINE, True, True)
     # simulate based on preference
-    COVIDsim.simulate(world, VaccineApproach.PREFERENCE_BASED_VACCINE, True, True)
+    covid.simulate(world, VaccineApproach.PREFERENCE_BASED_VACCINE, True, True)
 
     # end time measurement
     elapsed_time = time() - start_time

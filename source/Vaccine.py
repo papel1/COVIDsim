@@ -23,6 +23,8 @@ class Vaccine:
 
         min_suggested_age       Minimum required age for the vaccine.
         max_suggested_age       Maximum allowed age for the vaccine
+
+        refused_counter         The number of times the vaccine got refused.
     """
 
     name: str
@@ -35,3 +37,5 @@ class Vaccine:
 
     min_suggested_age: int = 12
     max_suggested_age: int = 113
+
+    refused_counter: int = 0
