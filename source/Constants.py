@@ -40,5 +40,5 @@ class Constants:
 
     data_folder = "./data/"
     output_folder = "./output/"
-    parameter_file = "vacc_parameters.xlsx"
-    shipment_file = "vacc_shipment.xlsx"
+    parameter_file = "vacc_parameters"
+    shipment_file = "vacc_shipment"

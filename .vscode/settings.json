@@ -1,13 +1,13 @@
 {
     "python.linting.enabled": true,
     "editor.defaultFormatter": "ms-python.autopep8",
-    "python.linting.pylintArgs": ["--max-line-length=160"],
+    "python.linting.pylintArgs": ["--max-line-length=160", "--disable=C0103,C0114,C0200"],
     "editor.formatOnSave": true,
     "python.formatting.autopep8Args": [
         "--max-line-length",
         "160",
         "--experimental",
-        "--indent-size=4"
+        "--indent-size=4",
     ],
     "files.exclude": {
         "**/.git": true,

@@ -1,4 +1,13 @@
 from dataclasses import dataclass
+from enum import Enum
+
+
+class VaccineApproach(Enum):
+    """
+    With the help of this we can determine how would we like to choose a new vaccine from our warehouse.
+    """
+    RANDOM_VACCINE = 1
+    PREFERENCE_BASED_VACCINE = 2
 
 
 @dataclass

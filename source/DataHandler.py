@@ -1,25 +1,38 @@
-from ast import Num
-from operator import itemgetter
-from random import choices, randrange, sample, shuffle
-import random
-from unittest import skip
-from numpy import datetime_as_string
-import numpy
-from openpyxl import load_workbook
 import pandas as pd
-from time import time, gmtime, strftime
-from tabulate import tabulate
-
-from Constants import Constants
 
 
 class DataHandler:
-    def __init__(self):
-        pass
+    """
+    Handles basic read / write operations from/to a selected dataset.
+    """
+
+    def __init__(self, data_folder: str, output_folder: str):
+        """__init__
+
+        Args:
+            data_folder (str): Folder to check for input data. 
+            output_folder (str): Folder to export the data.
+        """
+        self.data_folder = data_folder
+        self.output_folder = output_folder
 
     def to_xlsx(self, data_container, name: str):
+        """Write data to xlsx
+
+        Args:
+            data_container (_type_): The container we would like to export.
+            name (str): The name of the file we would like to use during export.
+        """
         df = pd.DataFrame(data=data_container)
-        df.to_excel(Constants.data_folder + f"{name}.xlsx")
+        df.to_excel(self.output_folder + f"{name}.xlsx")
 
     def from_xlsx(self, name: str) -> pd.DataFrame:
-        return pd.read_excel(Constants.data_folder + name)
+        """Read data from xlsx.
+
+        Args:
+            name (str): The name of the file we would like to read.
+
+        Returns:
+            pd.DataFrame: The read xls content.
+        """
+        return pd.read_excel(self.data_folder + f"{name}.xlsx")
