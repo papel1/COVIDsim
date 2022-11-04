@@ -87,7 +87,7 @@ class VaccineWarehouse:
     def increment_shipment(self, number_of_days: int):
         """
         Increment a shipment.
-        With this method we will increasy our warehouse stock with the amount of vaccines that 
+        With this method we will increasy our warehouse stock with the amount of vaccines that
         arrived between last_date and lastdate+number_of_days.
 
         Args:

@@ -32,7 +32,7 @@ class COVIDsim:
         """
         filled_len = int(round(bar_len * count / float(total)))
         p_bar = '#' * filled_len + ' ' * (bar_len - filled_len)
-        sys.stdout.write(f'[{p_bar}] {count}/{total}\r')
+        sys.stdout.write(f'[{p_bar}] {count+1}/{total}\r')
         sys.stdout.flush()
 
     def simulate(self, _w: World, vaccine_approach, discouraged_doctore: bool = True, print_bar: bool = False):

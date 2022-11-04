@@ -73,8 +73,8 @@ class World:
         """Reorders every districts population based on the inputs.
 
         Args:
-            key (_type_): lambda function which serves as the key for the sort function.
-            reverse (_type_): reverse flag.
+            key (_type_): Lambda function which serves as the key for the sort function.
+            reverse (_type_): Reverse flag.
         """
         for d in self.district_list:
             d.people_list.sort(key=key, reverse=reverse)

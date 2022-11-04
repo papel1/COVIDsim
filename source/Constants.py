@@ -27,29 +27,29 @@ class Constants:
         population_min_age=12,
         population_max_age=113,
         chronic_disease_ratio=25,
-        shipment_start_date="2021-02-16",
+        shipment_start_date="2021-01-01",
         shipment_frequency=7,
         district_size=46,
-        district_capacity=50,  # TODO
+        district_capacity=40,  # TODO
         vaccine_reserve_ratio=20.0,
         offer_frequency=7,
         vaccine_divider=100
     )
-    
+
     realConfig = Config(
-    execution_time=365,
-    population_size=10000000,
-    population_min_age=12,
-    population_max_age=113,
-    chronic_disease_ratio=25,
-    shipment_start_date="2021-02-16",
-    shipment_frequency=7,
-    district_size=4628,
-    district_capacity=50,  # TODO
-    vaccine_reserve_ratio=20.0,
-    offer_frequency=7,
-    vaccine_divider=1
-)
+        execution_time=365,
+        population_size=10000000,
+        population_min_age=5,
+        population_max_age=113,
+        chronic_disease_ratio=25,
+        shipment_start_date="2021-02-16",
+        shipment_frequency=7,
+        district_size=4629,
+        district_capacity=50,  # TODO
+        vaccine_reserve_ratio=20.0,
+        offer_frequency=7,
+        vaccine_divider=1
+    )
 
     currentCfg = None
 
