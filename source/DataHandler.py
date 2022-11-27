@@ -3,14 +3,14 @@ import pandas as pd
 
 class DataHandler:
     """
-    Handles basic read / write operations from/to a selected dataset.
+    Handles basic read / write operations from / to a selected dataset.
     """
 
     def __init__(self, data_folder: str, output_folder: str):
         """__init__
 
         Args:
-            data_folder (str): Folder to check for input data. 
+            data_folder (str): Folder to check for input data.
             output_folder (str): Folder to export the data.
         """
         self.data_folder = data_folder

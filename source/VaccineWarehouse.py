@@ -42,7 +42,7 @@ class VaccineWarehouse:
 
         Args:
             date1 (_type_): Starting date.
-            date2 (_type_): End date
+            date2 (_type_): End date.
             vaccine_name (_type_): The vaccine we are interested in.
 
         Returns:
@@ -87,8 +87,8 @@ class VaccineWarehouse:
     def increment_shipment(self, number_of_days: int):
         """
         Increment a shipment.
-        With this method we will increasy our warehouse stock with the amount of vaccines that
-        arrived between last_date and lastdate+number_of_days.
+        With this method we will increase our warehouse stock with the amount of vaccines that
+        arrived between last_date and lastdate + number_of_days.
 
         Args:
             number_of_days (int): Time increment in days.

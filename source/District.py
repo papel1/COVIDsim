@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from random import choices
 
 from Vaccine import Vaccine
+from Constants import Constants
 
 
 @dataclass
@@ -49,7 +50,9 @@ class District:
         """
         result = None
 
-        for pref in self.people_list[dp_id].preference_list:
+        tempList = [x for x in self.people_list[dp_id].preference_list if x[1] > Constants.currentCfg.strong_desire_for_vacc]
+
+        for pref in tempList:
             if result is not None:
                 break
             for vac in self.vaccine_list:
@@ -73,3 +76,13 @@ class District:
         """
         for v in self.vaccine_list:
             v.vaccine_prob = v.vaccine_amount
+
+    def get_vaccines_amount(self):
+        """
+        Returns the total amount of vaccines in a district.
+        """
+        amount = 0
+        for v in self.vaccine_list:
+            amount += v.vaccine_amount
+
+        return amount

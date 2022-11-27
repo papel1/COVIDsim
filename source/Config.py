@@ -16,7 +16,7 @@ class Config:
     Contains every basic configuration info with which we can start the algorithm.
 
     Attributes:
-        execution_time          Number of days the olgorithm should simulate.
+        execution_time          Number of days the algorithm should simulate.
 
         population_size         The number of people the algorithm should work on.
         population_min_age      The minimum age for a generated person.
@@ -30,16 +30,18 @@ class Config:
         district_capacity       The number of offer a district can do in any given day.
         vaccine_reserve_ratio   The ammount of vaccine we should not distribute and keep as backup.
 
-        offer_frequency         The frequency with which we will offer a vaccine to a person who has refused a previous offer. [day]
+        offer_frequency         The frequency with which we will offer a vaccine to a person who has refused before. [day]
         vaccine_divider         The number which we should divide our vacines with in order to mimic a more realistic scenario.
+
+        strong_desire_for_vacc  The minimum threshold where we consider someone as a person who "really" want's a vaccine.
     """
 
     execution_time: int
 
     population_size: int
-    population_min_age: int
-    population_max_age: int
-    chronic_disease_ratio: int
+    population_min_age: int         # only used for generate_random_population
+    population_max_age: int         # only used for generate_random_population
+    chronic_disease_ratio: int      # only used for generate_random_population
 
     shipment_start_date: str
     shipment_frequency: int
@@ -51,3 +53,5 @@ class Config:
     offer_frequency: int
 
     vaccine_divider: int
+
+    strong_desire_for_vacc: int

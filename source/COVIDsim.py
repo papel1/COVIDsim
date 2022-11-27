@@ -20,13 +20,15 @@ class COVIDsim:
         """__init__
         """
         self.vaccinated_counter = 0
+        self.vaccine_amount_counter = 0
         self.vaccination_progress = []
+        self.vaccine_amount = []
 
     def progress_bar(self, count, total, bar_len=100):
         """Prints a progress bar to the console.
 
         Args:
-            count (_type_): The current progress
+            count (_type_): The current progress.
             total (_type_): The total goal.
             bar_len (int, optional): Length [character]. Defaults to 100.
         """
@@ -35,15 +37,17 @@ class COVIDsim:
         sys.stdout.write(f'[{p_bar}] {count+1}/{total}\r')
         sys.stdout.flush()
 
-    def simulate(self, _w: World, vaccine_approach, discouraged_doctore: bool = True, print_bar: bool = False):
+    def simulate(self, _w: World, vaccine_approach, capacity_increment: int = 0, discouraged_doctore: bool = True, print_bar: bool = False):
         """The main simulation algorithm
 
         Args:
             _w (World): The incoming "world" we will do the simulation on.
             vaccine_approach (_type_): Vaccine approach which determines how we
-                                        would like to receive a new vaccine (random, etc)
-            discouraged_doctore (bool, optional): True if the doctor get's discureged from a refused vaccine.
-                                                    If the doctor is discureged it won't offer
+                                        would like to receive a new vaccine (random, etc).
+            capacity_increment(int): If not default, then it will increase the districts capacity
+                                        every day or in every offer_frequency day. Default 0.
+            discouraged_doctore (bool, optional): True if the doctor get's discouraged from a refused vaccine.
+                                                    If the doctor is discouraged it won't offer
                                                     the same vaccine again to anyone. Defaults to True.
             print_bar (bool, optional): If True it will print a progress bar to console. Defaults to False.
 
@@ -56,8 +60,10 @@ class COVIDsim:
         chronic_accepted = False
 
         for d in range(1, Constants.currentCfg.execution_time):
-
             self.vaccination_progress.append(self.vaccinated_counter)
+            self.vaccine_amount.append(self.vaccine_amount_counter)
+
+            self.vaccine_amount_counter = 0
 
             if print_bar:
                 self.progress_bar(d, Constants.currentCfg.execution_time)
@@ -73,6 +79,8 @@ class COVIDsim:
 
                 # district person id counter
                 dp_id = 0
+
+                self.vaccine_amount_counter += district.get_vaccines_amount()
 
                 while dp_id < len(district.people_list) and district.capacity > 0:
                     if vaccine_approach == VaccineApproach.RANDOM_VACCINE:
@@ -90,14 +98,13 @@ class COVIDsim:
                     else:
                         raise ValueError("Invalid parameter: \n" + str(vaccine_approach))
 
-                    # check if the persons preference list matches the selected_vaccine
+                    # check if the person's preference list matches the selected_vaccine
                     for dp_pref in district.people_list[dp_id].preference_list:
                         if district.people_list[dp_id].last_rejected != 0 or \
                                 district.people_list[dp_id].accepted or \
                                 district.capacity == 0:
                             break
 
-                            # TODO: disable and enable following if based on new flag: doctor_knows_preference
                         if dp_pref[0] == selected_vaccine.name:
                             # the selected vaccine is in the preference list.
 
@@ -109,6 +116,7 @@ class COVIDsim:
 
                             if chronic_accepted and is_age_between:
                                 district.people_list[dp_id].offered_counter += 1
+                                selected_vaccine.offered_counter += 1
                                 district.capacity -= 1
 
                                 # random decision based on the preference
@@ -131,6 +139,10 @@ class COVIDsim:
             if d % Constants.currentCfg.offer_frequency == 0:
                 _w.warehouse.increment_shipment(Constants.currentCfg.offer_frequency)
                 _w.redistribute()
+                Constants.currentCfg.district_capacity += capacity_increment
+            # put this to the if above if we would only like to increase in every offer_frequency day
+            # or put it below if we would like to increase it every day
+            #Constants.currentCfg.district_capacity += capacity_increment
 
 
 if __name__ == "__main__":
@@ -138,14 +150,15 @@ if __name__ == "__main__":
     start_time = time()
 
     # sets the default config. Change it to test a different scenario
-    Constants.currentCfg = Constants.testCfg
+    Constants.currentCfg = Constants.execConfig
 
     warehouse = VaccineWarehouse()
 
     population = Population()
     # generate random population
-    population.generate_random_population(Constants.currentCfg.population_size, warehouse.vaccine_list)
-    # TODO: we should generate a more representative population instead of random.
+    # population.generate_random_population(Constants.currentCfg.population_size, warehouse.vaccine_list)
+    # generate representative population
+    population.generate_representative_population(Constants.currentCfg.population_size, warehouse.vaccine_list)
 
     world = World(warehouse, population)
 
@@ -153,7 +166,7 @@ if __name__ == "__main__":
     covid = COVIDsim()
     # covid.simulate(world, VaccineApproach.RANDOM_VACCINE, True, True)
     # simulate based on preference
-    covid.simulate(world, VaccineApproach.PREFERENCE_BASED_VACCINE, True, True)
+    covid.simulate(world, VaccineApproach.PREFERENCE_BASED_VACCINE, 3, True, True)
 
     # end time measurement
     elapsed_time = time() - start_time

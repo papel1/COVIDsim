@@ -7,10 +7,10 @@ class People:
     Represents a person.
 
     Attributes:
-        id                  A persons unique identifier.
-        age                 The persons age.
+        id                  A person's unique identifier.
+        age                 The person's age.
         district_id         The district the person inhabits.
-        preference_list     The persons vaccine preference list.
+        preference_list     The person's vaccine preference list.
         chronic_disease     A logic value which will be true if the person has a chronic disease.
         last_rejected       The number of days remaining before we can offer a new vaccine to the person.
         accepted            A logic value which will be true if the person has accepted a vaccine.
