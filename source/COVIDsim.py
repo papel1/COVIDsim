@@ -20,9 +20,21 @@ class COVIDsim:
         """__init__
         """
         self.vaccinated_counter = 0
-        self.vaccine_amount_counter = 0
         self.vaccination_progress = []
-        self.vaccine_amount = []
+
+        self.vaccines_amount_counter = 0
+        self.vaccines_amount = []
+
+        self.pfizer_amount_counter = 0
+        self.pfizer_amount = []
+        self.moderna_amount_counter = 0
+        self.moderna_amount = []
+        self.astrazeneca_amount_counter = 0
+        self.astrazeneca_amount = []
+        self.sputnik_amount_counter = 0
+        self.sputnik_amount = []
+        self.sinopharm_amount_counter = 0
+        self.sinopharm_amount = []
 
     def progress_bar(self, count, total, bar_len=100):
         """Prints a progress bar to the console.
@@ -61,9 +73,19 @@ class COVIDsim:
 
         for d in range(1, Constants.currentCfg.execution_time):
             self.vaccination_progress.append(self.vaccinated_counter)
-            self.vaccine_amount.append(self.vaccine_amount_counter)
+            self.vaccines_amount.append(self.vaccines_amount_counter)
+            self.pfizer_amount.append(self.pfizer_amount_counter)
+            self.moderna_amount.append(self.moderna_amount_counter)
+            self.astrazeneca_amount.append(self.astrazeneca_amount_counter)
+            self.sputnik_amount.append(self.sputnik_amount_counter)
+            self.sinopharm_amount.append(self.sinopharm_amount_counter)
 
-            self.vaccine_amount_counter = 0
+            self.vaccines_amount_counter = 0
+            self.pfizer_amount_counter = 0
+            self.moderna_amount_counter = 0
+            self.astrazeneca_amount_counter = 0
+            self.sputnik_amount_counter = 0
+            self.sinopharm_amount_counter = 0
 
             if print_bar:
                 self.progress_bar(d, Constants.currentCfg.execution_time)
@@ -80,7 +102,12 @@ class COVIDsim:
                 # district person id counter
                 dp_id = 0
 
-                self.vaccine_amount_counter += district.get_vaccines_amount()
+                self.vaccines_amount_counter += district.get_vaccines_amount()
+                self.pfizer_amount_counter += district.get_spec_vacc_amount("pfizer")
+                self.moderna_amount_counter += district.get_spec_vacc_amount("moderna")
+                self.astrazeneca_amount_counter += district.get_spec_vacc_amount("astrazeneca")
+                self.sputnik_amount_counter += district.get_spec_vacc_amount("sputnik")
+                self.sinopharm_amount_counter += district.get_spec_vacc_amount("sinopharm")
 
                 while dp_id < len(district.people_list) and district.capacity > 0:
                     if vaccine_approach == VaccineApproach.RANDOM_VACCINE:
@@ -128,6 +155,13 @@ class COVIDsim:
                                     self.vaccinated_counter += 1
                                 else:
                                     district.people_list[dp_id].accepted = False
+                                    for dp_rej in range(len(district.people_list[dp_id].rejected_list)):
+                                        rej_tuple = district.people_list[dp_id].rejected_list[dp_rej]
+                                        if rej_tuple[0] == selected_vaccine.name:
+                                            temp_list = list(rej_tuple)
+                                            temp_list[1] += 1
+                                            temp_tuple = tuple(temp_list)
+                                            district.people_list[dp_id].rejected_list[dp_rej] = temp_tuple
                                     district.people_list[dp_id].last_rejected = Constants.currentCfg.offer_frequency
                                     selected_vaccine.refused_counter += 1
                                     if discouraged_doctore:
@@ -166,7 +200,7 @@ if __name__ == "__main__":
     covid = COVIDsim()
     # covid.simulate(world, VaccineApproach.RANDOM_VACCINE, True, True)
     # simulate based on preference
-    covid.simulate(world, VaccineApproach.PREFERENCE_BASED_VACCINE, 3, True, True)
+    covid.simulate(world, VaccineApproach.PREFERENCE_BASED_VACCINE, 0, True, True)
 
     # end time measurement
     elapsed_time = time() - start_time

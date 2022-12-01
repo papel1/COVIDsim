@@ -12,6 +12,7 @@ class People:
         district_id         The district the person inhabits.
         preference_list     The person's vaccine preference list.
         chronic_disease     A logic value which will be true if the person has a chronic disease.
+        rejected_list       A list containing vaccines that the person has previously rejected.
         last_rejected       The number of days remaining before we can offer a new vaccine to the person.
         accepted            A logic value which will be true if the person has accepted a vaccine.
         selected_vaccine    The name of the selected vaccine.
@@ -23,6 +24,7 @@ class People:
     district_id: int
     preference_list: list
     chronic_disease: bool
+    rejected_list: list
     last_rejected: int = 0
     accepted: bool = False
     selected_vaccine: str = ""

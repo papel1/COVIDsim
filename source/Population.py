@@ -55,7 +55,8 @@ class Population:
                         preference_list=sorted([(vac.name, randrange(1, 101))
                                                 for vac in pref_vacc],
                                                key=lambda x: x[1], reverse=True),
-                        chronic_disease=randrange(100) < int(self.representative_population["chronic_disease_ratio"].values[x]*100)
+                        chronic_disease=randrange(100) < int(self.representative_population["chronic_disease_ratio"].values[x]*100),
+                        rejected_list=[(vac.name, int(0)) for vac in vaccine_list]
                     ))
 
         # TODO: with the preference list not as a random one but one that mirrorst the real world.
@@ -84,5 +85,6 @@ class Population:
                     preference_list=sorted([(vac.name, randrange(1, 101))
                                             for vac in pref_vacc],
                                            key=lambda x: x[1], reverse=True),
-                    chronic_disease=randrange(100) < Constants.currentCfg.chronic_disease_ratio
+                    chronic_disease=randrange(100) < Constants.currentCfg.chronic_disease_ratio,
+                    rejected_list=[(vac.name, int(0)) for vac in vaccine_list]
                 ))

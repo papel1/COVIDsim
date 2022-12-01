@@ -86,3 +86,14 @@ class District:
             amount += v.vaccine_amount
 
         return amount
+
+    def get_spec_vacc_amount(self, vacc: str):
+        """
+        Returns a specific type of vaccine's amount in a district.
+        """
+        amount = 0
+        for v in self.vaccine_list:
+            if v.name == vacc:
+                amount += v.vaccine_amount
+
+        return amount
