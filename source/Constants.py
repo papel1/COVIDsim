@@ -61,4 +61,4 @@ class Constants:
     parameter_file = "vacc_parameters"
     shipment_file = "vacc_shipment"
     population_file = "population_age_groups"
-    real_vacc = "real_vaccination"
+    real_vacc_file = "real_vaccination"

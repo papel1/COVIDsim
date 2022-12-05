@@ -31,7 +31,6 @@ class Population:
         Generate a representative population.
         Based on age.
         Chronic disease distribution compared to age.
-        [TODO]Proper (not random) preference list.
 
         Args:
             num_of_people (_type_): The number of people we would like to generate.
@@ -58,9 +57,6 @@ class Population:
                         chronic_disease=randrange(100) < int(self.representative_population["chronic_disease_ratio"].values[x]*100),
                         rejected_list=[(vac.name, int(0)) for vac in vaccine_list]
                     ))
-
-        # TODO: with the preference list not as a random one but one that mirrorst the real world.
-        # https://www.portfolio.hu/gazdasag/20210226/egyertelmu-iteletet-mondtak-az-olvasok-messze-ezt-a-vakcinat-valasztanak-a-legtobben-471556
 
     def generate_random_population(self, num_of_people: int, vaccine_list: list):
         """Generates a random population.

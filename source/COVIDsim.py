@@ -49,7 +49,7 @@ class COVIDsim:
         sys.stdout.write(f'[{p_bar}] {count+1}/{total}\r')
         sys.stdout.flush()
 
-    def simulate(self, _w: World, vaccine_approach, capacity_increment: int = 0, discouraged_doctore: bool = True, print_bar: bool = False):
+    def simulate(self, _w: World, vaccine_approach, capacity_increment: int = 0, discouraged_doctor: bool = True, print_bar: bool = False):
         """The main simulation algorithm
 
         Args:
@@ -58,7 +58,7 @@ class COVIDsim:
                                         would like to receive a new vaccine (random, etc).
             capacity_increment(int): If not default, then it will increase the districts capacity
                                         every day or in every offer_frequency day. Default 0.
-            discouraged_doctore (bool, optional): True if the doctor get's discouraged from a refused vaccine.
+            discouraged_doctor (bool, optional): True if the doctor get's discouraged from a refused vaccine.
                                                     If the doctor is discouraged it won't offer
                                                     the same vaccine again to anyone. Defaults to True.
             print_bar (bool, optional): If True it will print a progress bar to console. Defaults to False.
@@ -164,7 +164,7 @@ class COVIDsim:
                                             district.people_list[dp_id].rejected_list[dp_rej] = temp_tuple
                                     district.people_list[dp_id].last_rejected = Constants.currentCfg.offer_frequency
                                     selected_vaccine.refused_counter += 1
-                                    if discouraged_doctore:
+                                    if discouraged_doctor:
                                         selected_vaccine.vaccine_prob -= 1
                             break
 
@@ -198,7 +198,7 @@ if __name__ == "__main__":
 
     # simulate based on random vaccine distribution
     covid = COVIDsim()
-    # covid.simulate(world, VaccineApproach.RANDOM_VACCINE, True, True)
+    # covid.simulate(world, VaccineApproach.RANDOM_VACCINE, 0, True, True)
     # simulate based on preference
     covid.simulate(world, VaccineApproach.PREFERENCE_BASED_VACCINE, 0, True, True)
 
